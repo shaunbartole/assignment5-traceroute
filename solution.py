@@ -6,6 +6,7 @@ import struct
 import time
 import select
 import binascii
+from socket import socket
 
 ICMP_ECHO_REQUEST = 8
 MAX_HOPS = 30
@@ -82,9 +83,8 @@ def get_route(hostname):
             # Make a raw socket named mySocket
             icmp = socket.getprotobyname("icmp")
             try:
-             mySocket = socket(socket.AF_INET, socket.SOCK_RAW, icmp)
+             mySocket: socket = socket(socket.AF_INET, socket.SOCK_RAW, icmp)
             #Fill in end
-
             mySocket.setsockopt(IPPROTO_IP, IP_TTL, struct.pack('I', ttl))
             mySocket.settimeout(TIMEOUT)
             try:
