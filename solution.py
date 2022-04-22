@@ -1,3 +1,4 @@
+import socket
 from socket import *
 import os
 import sys
@@ -47,6 +48,20 @@ def build_packet():
     # Append checksum to the header.
 
     # Don’t send the packet yet , just return the final packet in this function.
+    myChecksum = 0
+    myID = os.getpid() & 0xFFFF
+
+    header = struct.pack"bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
+    data = struct.pack("d", time.time())
+
+    myChecksum = checksum(header + data)
+    if sys.platform == 'darwin' :
+        myChecksum = socket.htons(myChecksum) & 0xffff
+    else:
+        myChecksum = htons(myChecksum)
+
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
+
     #Fill in end
 
     # So the function ending should look like this
