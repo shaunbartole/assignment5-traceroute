@@ -48,10 +48,10 @@ def build_packet():
     # Append checksum to the header.
 
     # Don’t send the packet yet , just return the final packet in this function.
+    ID = os.getpid() & 0xFFFF
     myChecksum = 0
-    myID = os.getpid() & 0xFFFF
 
-    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
     data = struct.pack("d", time.time())
 
     myChecksum = checksum(header + data)
@@ -60,7 +60,7 @@ def build_packet():
     else:
         myChecksum = htons(myChecksum)
 
-    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID,1)
 
     #Fill in end
 
@@ -80,8 +80,9 @@ def get_route(hostname):
 
             #Fill in start
             # Make a raw socket named mySocket
-            icmp = socket.gethostbyname("icmp")
-            mySocket - socket.socket(socket.AF_INET, socket.SOCK_DGRAM, icmp)
+            icmp = socket.getprotobyname("icmp")
+            try:
+             mySocket = socket.(socket.AF_INET, socket.SOCK_RAW, icmp)
             #Fill in end
 
             mySocket.setsockopt(IPPROTO_IP, IP_TTL, struct.pack('I', ttl))
@@ -112,13 +113,16 @@ def get_route(hostname):
             else:
                 #Fill in start
                 #Fetch the icmp type from the IP
-                icmpHeader = recvPacket[20:28]
+                icmp_type, icmp_code, icmp_checksum, icmp_id, icmp_seq, timeSent = struct.unpack('bbHHhd',recvPacket[20:36])
+                types, = struct.unpack('b', recvPacket[20:21])
                 #Fill in end
                 try: #try to fetch the hostname
                     #Fill in start
+                sourceHostname = gethostbyaddr(addr[0])[0]
                     #Fill in end
-                except herror:   #if the host does not provide a hostname
+                except herror:  #if the host does not provide a hostname
                     #Fill in start
+                    sourceHostname = "hostname unreturnable"
                     #Fill in end
 
                 if types == 11:
@@ -126,25 +130,32 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28:28 +
                     bytes])[0]
                     #Fill in start
-                    print("  %d    rtt=%.0f ms    %s" %(ttl, (timeReceived -t)*1000, addr[0]))
+                    rtt = str(round(timeSent*1000)) +"ms"
+                    tracelist1.append([str(ttl),rtt,str(addr[0]),sourceHostname])
+                    tracelist2.append(tracelist1[-1])
                     #Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
-                    print("  %d    rtt=%.0f ms    %s" % (ttl, (timeReceived - t) * 1000, addr[0]))
+                    rtt = "*"
+                    tracelist1.append([str(ttl), rtt, "Request timed out"])
+                    tracelist2.append(tracelist1[-1])
+
                     #Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should add your responses to your lists here and return your list if your destination IP is met
-                    print("  %d    rtt=%.0f ms    %s" % (ttl, (timeReceived - timeSent) * 1000, addr[0]))
+                    rtt = str(round((t - timeSent)*1000)) +"ms"
+                    tracelist1.append([str(ttl), rtt, str(addr[0]), sourceHostname])
+                    tracelist2.append(tracelist1[-1])
                     #Fill in end
                 else:
                     #Fill in start
                     #If there is an exception/error to your if statements, you should append that to your list here
-                    print("error")
+                    tracelist1.append([ttl,'*','Error Occurred'])
                     #Fill in end
                 break
             finally:
