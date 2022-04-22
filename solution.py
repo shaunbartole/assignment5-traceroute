@@ -56,6 +56,8 @@ def build_packet():
     sendTime = time.time()
 
     header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
+    #icmpHeader = recPacket[20:28]
+    #icmpType, code, myChecksum, packetID, sequence = struct.unpack("bbHHh", icmpHeader")
     data = struct.pack("d", sendTime)
 
     myChecksum = checksum(header + data)
@@ -64,7 +66,7 @@ def build_packet():
     else:
         myChecksum = htons(myChecksum)
 
-    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID,1)
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
 
     #Fill in end
 
