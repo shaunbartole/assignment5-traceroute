@@ -80,6 +80,8 @@ def get_route(hostname):
 
             #Fill in start
             # Make a raw socket named mySocket
+            icmp = socket.gethostbyname("icmp")
+            mySocket - socket.socket(socket.AF_INET, socket.SOCK_DGRAM, icmp)
             #Fill in end
 
             mySocket.setsockopt(IPPROTO_IP, IP_TTL, struct.pack('I', ttl))
@@ -109,7 +111,8 @@ def get_route(hostname):
 
             else:
                 #Fill in start
-                #Fetch the icmp type from the IP packet
+                #Fetch the icmp type from the IP
+                icmpHeader = recvPacket[20:28]
                 #Fill in end
                 try: #try to fetch the hostname
                     #Fill in start
