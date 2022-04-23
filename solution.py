@@ -108,6 +108,7 @@ def get_route(hostname):
                     tracelist1.append("* * * Request timed out.")
                     #Fill in start
                     tracelist2.append([str(ttl),tracelist1[-1]])
+
                     #Fill in end
             except timeout:
                 continue
@@ -135,7 +136,7 @@ def get_route(hostname):
                     rtt = str(round(timeSent*1000)) +"ms"
                     tracelist1.append([str(ttl),rtt,str(addr[0]),sourceHostname])
                     tracelist2.append(tracelist1[-1])
-                    print("   %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t) * 1000, addr[0]))
+                    #print("   %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t) * 1000, addr[0]))
                     #Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
@@ -144,7 +145,7 @@ def get_route(hostname):
                     rtt = "*"
                     tracelist1.append([str(ttl), rtt,str(addr[0]), sourceHostname,"Request timed out"])
                     tracelist2.append(tracelist1[-1])
-                    print("   %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t) * 1000, addr[0]))
+                    #print("   %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t) * 1000, addr[0]))
 
                     #Fill in end
                 elif types == 0:
@@ -155,7 +156,8 @@ def get_route(hostname):
                     #rtt = str(round((t - timeSent)*1000)) +"ms"
                     tracelist1.append([str(ttl), rtt, str(addr[0]), sourceHostname])
                     tracelist2.append(tracelist1[-1])
-                    print("   %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t) * 1000, addr[0]))
+                    #print("   %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t) * 1000, addr[0]))
+                    print(tracelist2)
                     #Fill in end
 
                     return
