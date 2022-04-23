@@ -56,8 +56,6 @@ def build_packet():
     sendTime = time.time()
 
     header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, myID, 1)
-    #icmpHeader = recPacket[20:28]
-    #icmpType, code, myChecksum, packetID, sequence = struct.unpack("bbHHh", icmpHeader")
     data = struct.pack("d", sendTime)
 
     myChecksum = checksum(header + data)
@@ -143,7 +141,7 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     rtt = "*"
-                    tracelist1.append([str(ttl), rtt, "Request timed out"])
+                    tracelist1.append([str(ttl), rtt,str(addr[0]), sourceHostname,"Request timed out"])
                     tracelist2.append(tracelist1[-1])
 
                     #Fill in end
