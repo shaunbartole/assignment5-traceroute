@@ -154,8 +154,7 @@ def get_route(hostname):
                     #tracelist1.append([str(ttl), rtt, str(addr[0]), sourceHostname])
                     #print(tracelist2.append(tracelist1[-1]))
                     #Fill in end
-                    print("TTL = %d\trtt=%.0f ms\tIP = %s\tHost:%s" % (
-                    ttl, (timeReceived - timeSent) * 1000, addr[0], routerHostname))
+                    print ("   %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t)*1000, addr[0]))
                     return
                 else:
                     #Fill in start
