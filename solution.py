@@ -125,6 +125,7 @@ def get_route(hostname):
                 except herror:  #if the host does not provide a hostname
                     #Fill in start
                     sourceHostname = "hostname unreturnable"
+                    print(sourceHostname)
                     #Fill in end
 
                 if types == 11:
