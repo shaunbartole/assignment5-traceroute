@@ -163,6 +163,7 @@ def get_route(hostname):
                     #Fill in start
                     #If there is an exception/error to your if statements, you should append that to your list here
                     tracelist1.append([str.ttl,rtt,str(addr[0]),'*','Error Occurred'])
+                    print("   %d     rtt=%.0f ms    %s" % (ttl, (timeReceived - t) * 1000, addr[0]))
                     #Fill in end
                 break
             finally:
