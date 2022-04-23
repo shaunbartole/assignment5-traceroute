@@ -150,10 +150,12 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     #You should add your responses to your lists here and return your list if your destination IP is met
-                    rtt = str(round((t - timeSent)*1000)) +"ms"
-                    tracelist1.append([str(ttl), rtt, str(addr[0]), sourceHostname])
-                    print(tracelist2.append(tracelist1[-1]))
+                    #rtt = str(round((t - timeSent)*1000)) +"ms"
+                    #tracelist1.append([str(ttl), rtt, str(addr[0]), sourceHostname])
+                    #print(tracelist2.append(tracelist1[-1]))
                     #Fill in end
+                    print("TTL = %d\trtt=%.0f ms\tIP = %s\tHost:%s" % (
+                    ttl, (timeReceived - timeSent) * 1000, addr[0], routerHostname))
                 else:
                     #Fill in start
                     #If there is an exception/error to your if statements, you should append that to your list here
