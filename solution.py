@@ -108,6 +108,7 @@ def get_route(hostname):
                     tracelist1.append("* * * Request timed out.")
                     #Fill in start
                     tracelist2.append([str(ttl),tracelist1[-1]])
+                    print(tracelist1)
 
                     #Fill in end
             except timeout:
