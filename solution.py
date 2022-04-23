@@ -156,6 +156,7 @@ def get_route(hostname):
                     #Fill in end
                     print("TTL = %d\trtt=%.0f ms\tIP = %s\tHost:%s" % (
                     ttl, (timeReceived - timeSent) * 1000, addr[0], routerHostname))
+                    return
                 else:
                     #Fill in start
                     #If there is an exception/error to your if statements, you should append that to your list here
